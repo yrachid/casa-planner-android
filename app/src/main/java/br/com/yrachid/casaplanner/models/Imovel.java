@@ -1,4 +1,4 @@
-package br.com.yrachid.casaplanner;
+package br.com.yrachid.casaplanner.models;
 
 
 public class Imovel {

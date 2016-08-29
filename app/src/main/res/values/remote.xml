@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_host">10.27.13.20</string>
+    <integer name="remote_port">5000</integer>
+</resources>

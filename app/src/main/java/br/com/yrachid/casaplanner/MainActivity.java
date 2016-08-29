@@ -2,10 +2,8 @@ package br.com.yrachid.casaplanner;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,25 +11,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import br.com.yrachid.casaplanner.factories.RetrofitFactory;
-import retrofit2.Call;
-import retrofit2.Response;
+import javax.inject.Inject;
+
+import br.com.yrachid.casaplanner.models.Imovel;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    @Inject
+    Retrofit retrofit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+
+        ((CasaPlannerApplication) getApplication()).getHttpComponent().inject(this);
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,14 +64,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        Retrofit retro = new RetrofitFactory().create(
-                getString(R.string.test_remote_host),
-                getString(R.string.test_remote_port)
-        );
-
         try {
 
-            List<Imovel> imoveis = new ApiCall().execute(new Retrofit[] {retro}).get();
+            List<Imovel> imoveis = new ApiCall().execute(new Retrofit[] {retrofit}).get();
 
             String [] imoveisEmString = new String[imoveis.size()];
 
